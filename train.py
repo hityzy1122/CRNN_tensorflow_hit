@@ -79,8 +79,11 @@ with tf.Session(graph=graph) as sess:
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
     try:
         while not coord.should_stop():
-            _, loss, seq_dist, preds, gt_labels = sess.run([optimizer, loss, sequence_dist, decoded, input_labels],
-                                                           feed_dict={phase_tensor: "train"})
+            _, loss_train, seq_dist, preds, gt_labels = sess.run([optimizer,
+                                                                  loss,
+                                                                  sequence_dist,
+                                                                  decoded, input_labels],
+                                                                 feed_dict={phase_tensor: "train"})
 
             # -----------------------------accuracy------------------------------------------
             preds = sparse_tensor_to_str(preds[0])
@@ -116,7 +119,8 @@ with tf.Session(graph=graph) as sess:
 
             if step % 1 == 0:
                 logging.info('-----------Step %d:-------------' % step)
-                logging.info('  loss   : {}'.format(loss))
+                logging.info('  loss   : {} '.format(loss_train))
+                logging.info('  accuracy   : {} '.format(accuracy_train))
             if step % 1000 == 0:
                 save_path = saver.save(sess, checkpoints_dir + "/model.ckpt", global_step=step)
                 logging.info('Model saved in files: %s' % save_path)
