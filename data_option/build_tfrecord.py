@@ -59,6 +59,12 @@ def tf_record_writer(list_path, record_path):
                 label = inform_trans.trans_str_2_label(str_label)
 
                 image = cv2.imread(pimage, cv2.IMREAD_UNCHANGED)
+                # image_save = image.copy()
+                c_h, c_s, c_v = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
+                clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+                c_v = clahe.apply(c_v)
+                image = cv2.cvtColor(cv2.merge((c_h, c_s, c_v)), cv2.COLOR_HSV2BGR)
+
                 image = cv2.resize(image, (100, 32))
                 image = bytes(list(np.reshape(image, 9600)))  # 9600 = 100*3*32
 
@@ -69,8 +75,10 @@ def tf_record_writer(list_path, record_path):
 
                 example = tf.train.Example(features=features)
                 writer.write(example.SerializeToString())
-                if index % 100 == 0:
+                # writer.flush()
+                if index % 1000 == 0:
                     print('{} is done'.format(str(index)))
+                    writer.flush()
 
                 # with tf.gfile.FastGFile(pimage, 'rb') as f:
                 #     image_data = f.read()
