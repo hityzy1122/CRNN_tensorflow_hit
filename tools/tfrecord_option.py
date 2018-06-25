@@ -40,7 +40,7 @@ if __name__ == '__main__':
     with tf.Session() as sess:
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(sess=sess, coord=coord)
-        for i in range(10):
+        for i in range(200000):
             images, labels = sess.run([images_batch, labels_batch])
             labels = inform_trans.sparse_tensor_to_str(labels)
             for idx in range(1):
