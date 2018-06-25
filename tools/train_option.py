@@ -1,4 +1,3 @@
-import tensorflow as tf
 import numpy as np
 from tools.inform_trans import sparse_tensor_to_str
 
