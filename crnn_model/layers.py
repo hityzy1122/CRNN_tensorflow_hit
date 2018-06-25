@@ -46,13 +46,6 @@ def conv2d_bn_active(input_feature=None, filters=None,
                             bias_regularizer=tflayers.l2_regularizer(scale=0.1),
                             trainable=trainable, name=name)
 
-    # bn = tf.identity(layerbn(conv, is_training=is_training, name=name+'_bn')
-    #                  if if_bn else
-    #                  conv, name=name+'_bn')
-    #
-    # act = tf.identity(leaky_relu(bn, name+'_bn_act')
-    #                   if if_active else
-    #                   bn, name+'_bn_act')
     if if_bn:
         bn = layerbn(conv, is_training=is_training, name=name+'_bn')
     else:
