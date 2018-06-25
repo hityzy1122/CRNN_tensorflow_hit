@@ -22,11 +22,9 @@ def pooling(inpitdata, poolsize=(2, 2), stride=(2, 2), name=None):
 def layerbn(inputdata, is_training, name):
 
     def f1():
-        # print('training')
         return tf.layers.batch_normalization(inputdata, training=True, reuse=False, name=name)
 
     def f2():
-        # print('testing')
         return tf.layers.batch_normalization(inputdata, training=False, reuse=True, name=name)
 
     output = tf.cond(is_training, f1, f2, name=name)
