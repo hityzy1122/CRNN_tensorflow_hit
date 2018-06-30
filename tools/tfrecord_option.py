@@ -5,7 +5,7 @@ import cv2
 from tools import inform_trans
 
 
-def tf_record_reader(record_path):
+def tf_record_reader(record_path, batch_size):
     if not os.path.exists(record_path):
         raise FileExistsError('{} is not existed'.format(record_path))
     filename_queue = tf.train.string_input_producer([record_path])
@@ -24,8 +24,8 @@ def tf_record_reader(record_path):
 
     image_batch, label_batch = \
         tf.train.shuffle_batch(tensors=[image, label],
-                               batch_size=cfg.TRAIN_BATCH_SIZE,
-                               capacity=1024+2*cfg.TRAIN_BATCH_SIZE,
+                               batch_size=batch_size,
+                               capacity=1024+2*batch_size,
                                min_after_dequeue=128,
                                num_threads=64, seed=8)
     return image_batch, label_batch
