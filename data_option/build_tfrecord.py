@@ -93,4 +93,5 @@ def tf_record_writer(list_path, record_path):
 
 
 if __name__ == '__main__':
-    tf_record_writer(cfg.PATH_TRAIN_LIST, cfg.PATH_TFRECORDS_TRAIN)
+    # tf_record_writer(cfg.PATH_TRAIN_LIST, cfg.PATH_TFRECORDS_TRAIN)
+    tf_record_writer(cfg.PATH_VAL_LIST, cfg.PATH_TFRECORDS_VALIDATION)
