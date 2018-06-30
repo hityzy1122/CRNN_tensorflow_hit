@@ -2,7 +2,7 @@ import numpy as np
 from tools.inform_trans import sparse_tensor_to_str
 
 
-def cal_accuracy(preds, gt_labels):
+def cal_accuracy(gt_labels, preds):
 
     preds = sparse_tensor_to_str(preds[0])
     gt_labels = sparse_tensor_to_str(gt_labels)
@@ -28,4 +28,4 @@ def cal_accuracy(preds, gt_labels):
                     accuracy_train.append(0)
 
     accuracy_train = np.mean(np.array(accuracy_train).astype(np.float32), axis=0)
-    return accuracy_train
+    return accuracy_train, gt_labels, preds
