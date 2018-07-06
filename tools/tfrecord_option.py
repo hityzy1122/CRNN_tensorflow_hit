@@ -17,7 +17,7 @@ def tf_record_reader(record_path, batch_size):
                                            'image': tf.FixedLenFeature([], tf.string)
                                        })
     image_buffer = tf.decode_raw(features['image'], tf.uint8)
-    image = tf.reshape(image_buffer, [32, 100, 3])
+    image = tf.reshape(image_buffer, [cfg.IMAGE_HEIGHT, cfg.IMAGE_WIDTH, 3])
 
     label_buffer = features['label']
     label = tf.cast(label_buffer, tf.int32)
