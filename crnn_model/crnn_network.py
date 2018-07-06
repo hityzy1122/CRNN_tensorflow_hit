@@ -100,7 +100,7 @@ class Net(object):
 if __name__ == '__main__':
     g = tf.Graph()
     with g.as_default():
-        inputdata = tf.placeholder(dtype=tf.float32, shape=[128, 32, 100, 3], name='test')
+        inputdata = tf.placeholder(dtype=tf.float32, shape=[128, cfg.IMAGE_HEIGHT, cfg.IMAGE_WIDTH, 3], name='test')
         inputdata = tf.cast(x=inputdata, dtype=tf.float32)
         phase_tensor = tf.placeholder(dtype=tf.string, shape=None, name='phase')
 
