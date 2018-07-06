@@ -21,7 +21,7 @@ def test():
     graph = tf.Graph()
     with graph.as_default():
 
-        input_data = tf.placeholder(dtype=tf.float32, shape=[1, 32, 100, 3], name='input_data')
+        input_data = tf.placeholder(dtype=tf.float32, shape=[1, cfg.IMAGE_HEIGHT, cfg.IMAGE_WIDTH, 3], name='input_data')
 
         phase_tensor = tf.placeholder(dtype=tf.string, shape=None, name='phase')
 
@@ -48,7 +48,7 @@ def test():
             c_v = clahe.apply(c_v)
             image = cv2.cvtColor(cv2.merge((c_h, c_s, c_v)), cv2.COLOR_HSV2BGR)
 
-            image = np.expand_dims((cv2.resize(image, (100, 32))/255.0).astype(np.float32), axis=0)
+            image = np.expand_dims((cv2.resize(image, (cfg.IMAGE_WIDTH, cfg.IMAGE_HEIGHT))/255.0).astype(np.float32), axis=0)
 
             preds = sess.run(decoded, feed_dict={input_data: image, phase_tensor: 'test'})
             preds = sparse_tensor_to_str(preds[0])
