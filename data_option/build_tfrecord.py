@@ -65,7 +65,7 @@ def tf_record_writer(list_path, record_path):
                 c_v = clahe.apply(c_v)
                 image = cv2.cvtColor(cv2.merge((c_h, c_s, c_v)), cv2.COLOR_HSV2BGR)
 
-                image = cv2.resize(image, (100, 32))
+                image = cv2.resize(image, (cfg.IMAGE_WIDTH, cfg.IMAGE_HEIGHT))
                 image = bytes(list(np.reshape(image, 9600)))  # 9600 = 100*3*32
 
                 features = tf.train.Features(feature={
