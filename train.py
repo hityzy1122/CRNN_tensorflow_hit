@@ -70,9 +70,14 @@ def train():
 
         t_var = tf.trainable_variables()
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-        with tf.control_dependencies(update_ops):
-            optimizer = (tf.train.AdamOptimizer(learning_rate=learning_rate).
-                         minimize(cost_train, global_step=global_step, var_list=t_var))
+        if cfg.TRAIN_OPTIMIZER == 'adam':
+            with tf.control_dependencies(update_ops):
+                optimizer = (tf.train.AdamOptimizer(learning_rate=learning_rate).
+                             minimize(cost_train, global_step=global_step, var_list=t_var))
+        elif cfg.TRAIN_OPTIMIZER == 'mom':
+            with tf.control_dependencies(update_ops):
+                optimizer = (tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9).
+                             minimize(cost_train, global_step=global_step, var_list=t_var))
 
         lr_summary = tf.summary.scalar(name='learining_rate', tensor=learning_rate)
         tl_summary = tf.summary.scalar(name='train_loss', tensor=cost_train)
@@ -90,8 +95,8 @@ def train():
             sess.run(tf.global_variables_initializer())
             checkpoint = tf.train.get_checkpoint_state(checkpoints_dir)
             meta_graph_path = checkpoint.model_checkpoint_path + ".meta"
-            restore = tf.train.import_meta_graph(meta_graph_path)
-            restore.restore(sess, tf.train.latest_checkpoint(checkpoints_dir))
+            # restore = tf.train.import_meta_graph(meta_graph_path)
+            saver.restore(sess, tf.train.latest_checkpoint(checkpoints_dir))
             step = int(meta_graph_path.split("-")[2].split(".")[0])
         else:
             logging.info('Training from scratch')
