@@ -70,6 +70,7 @@ def train():
 
         t_var = tf.trainable_variables()
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+
         if cfg.TRAIN_OPTIMIZER == 'adam':
             with tf.control_dependencies(update_ops):
                 optimizer = (tf.train.AdamOptimizer(learning_rate=learning_rate).
