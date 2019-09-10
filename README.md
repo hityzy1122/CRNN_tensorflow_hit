@@ -1,2 +1,2 @@
 # CRNN_hit
-Under Construction
+reimplement CRNN with tensorflow
